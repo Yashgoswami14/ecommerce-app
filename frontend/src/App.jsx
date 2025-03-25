@@ -1,11 +1,16 @@
-import {Route , Routes} from "react-router-dom";
+import {Navigate, Route , Routes} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 
 import Navbar from "./components/Navbar"
+import { Toaster } from "react-hot-toast";
+import { useUserStore } from "./stores/useUserStore";
 
 function App(){
+  const {user} = useUserStore();
+  
+  console.log("app.jsx user :", user);
   return(
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
       {/* Backgroud-gradient */}
@@ -20,9 +25,10 @@ function App(){
       <Routes>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/signup" element={<SignUpPage/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
+        <Route path='/login' element={user ? <Navigate to="/" /> : <LoginPage />} />
       </Routes>
       </div>
+      <Toaster />
     </div>
   )
 }
