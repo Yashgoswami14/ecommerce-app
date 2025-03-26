@@ -1,3 +1,4 @@
+
 import React,{useState} from 'react';
 import {Link} from "react-router-dom";
 import {UserPlus,Mail,Lock,User,ArrowRight,Loader} from "lucide-react";
@@ -80,7 +81,7 @@ const SignUpPage = () => {
                 <label htmlFor="name" className='block text-sm font-medium text-gray-300'>
                   Password
                 </label>
-                <div className='mt-1 relative rounded rounded-md shadow-sm'>
+                <div className='mt-1 relative  rounded-md shadow-sm'>
                   <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
                       <Lock className='h-5 w-5 text-gray-400' aria-hidden='true' />
                   </div>
@@ -100,7 +101,7 @@ const SignUpPage = () => {
                 <label htmlFor="name" className='block text-sm font-medium text-gray-300'>
                   confirm Password
                 </label>
-                <div className='mt-1 relative rounded rounded-md shadow-sm'>
+                <div className='mt-1 relative  rounded-md shadow-sm'>
                   <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
                       <Lock className='h-5 w-5 text-gray-400' aria-hidden='true' />
                   </div>
