@@ -15,7 +15,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json()); // it Allows you to parse the body of the request
+app.use(express.json({limit:"10mb"})); // it Allows you to parse the body of the request
 app.use(cookieParser());
 
 
