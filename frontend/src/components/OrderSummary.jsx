@@ -3,16 +3,37 @@ import {motion} from "framer-motion";
 import { useCartStore } from '../stores/useCartStore';
 import {Link} from "react-router-dom";
 import { MoveRight } from 'lucide-react';
+import {loadStripe} from '@stripe/stripe-js';
+import axios from '../lib/axios';
+
+const stripePromise = loadStripe("pk_test_51R4MWEAeBEGyh5GaOw477nzD7VQ74Q97C9KV5cfOjorPLv3eFwwa4RhOh7FYlUFxWGVYuKpK9fcwuyYLO000610u00IBa3gFxU");
 
 const OrderSummary = () => {
-    const {total,subtotal,coupon,isCouponApplied} = useCartStore();
+    const {total,subtotal,coupon,isCouponApplied,cart} = useCartStore();
     const savings = subtotal-total; 
     const formattedTotal = total.toFixed(2);
     const formattedSubtotal = subtotal.toFixed(2);
     const formattedSavings = subtotal.toFixed(2);
 
-    const handlePayment = () =>{
+    console.log("formattedTotal is: ",formattedTotal);
+    console.log("formattedSubtotal is: ",formattedSubtotal);
+    console.log("formattedSavingsis: ",formattedSavings);
 
+    const handlePayment = async() =>{
+        const stripe = await stripePromise;
+        const res = await axios.post("/payments/create-checkout-session",{
+            products: cart,
+            couponCode: coupon ? coupon.code : null,
+        });
+
+        const session = res.data;
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id,
+        });
+
+        if(result.error){
+            console.error("Error: ",result.error);
+        }
     }
 
   return (
@@ -38,7 +59,7 @@ const OrderSummary = () => {
             )}
             {coupon && isCouponApplied && (
                 <dl className='flex items-center justify-between gap-4'>
-                    <dt className='text-base font-normal text-gray-300'>Coupon</dt>
+                    <dt className='text-base font-normal text-gray-300'>Coupon ({coupon.code})</dt>
                     <dd className='text-base font-medium text-emerald-400'>-{coupon.discountPercentage}%</dd>
                 </dl>
             )}

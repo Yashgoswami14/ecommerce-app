@@ -27,7 +27,7 @@ const CartPage = () => {
                 ) : (
                     <div className='space-y-6'>
                         {cart.map((item)=>(
-                            <CartItem key={cart._id} item={item}/>
+                            <CartItem key={item._id} item={item}/>
                         ))}
                         {cart.length>0 && <PeopleAlsoBought/>}
                     </div>
